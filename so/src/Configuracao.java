@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Configuracao {
@@ -6,19 +8,18 @@ public class Configuracao {
 	private Map<String, Integer> paginasProcessos;
 	private String tipoAlocacao;
 	private String tipoSubstituicao;
-	private Map<String, Integer> sequencias;
-
+	private List<Processo> sequencias;
 
 	public Configuracao() {
 		setTamanhoQuadros(-1);
 		setPaginasProcessos(new LinkedHashMap<String, Integer>());
 		setTipoAlocacao(null);
 		setTipoSubstituicao(null);
-		setSequencias(new LinkedHashMap<String, Integer>());
+		setSequencias(new ArrayList<Processo>());
 	}
 
-	public Configuracao(int tamanhoQuadros, LinkedHashMap<String, Integer> paginasProcesso, String tipoAlocacao, String tipoSubstituicao,
-			LinkedHashMap<String, Integer> sequencias) {
+	public Configuracao(int tamanhoQuadros, LinkedHashMap<String, Integer> paginasProcesso, String tipoAlocacao,
+			String tipoSubstituicao) {
 		setTamanhoQuadros(tamanhoQuadros);
 		setPaginasProcessos(paginasProcesso);
 		setTipoAlocacao(tipoAlocacao);
@@ -61,12 +62,30 @@ public class Configuracao {
 		this.tipoSubstituicao = tipoSubstituicao;
 	}
 
-	public Map<String, Integer> getSequencias() {
+	public List<Processo> getSequencias() {
 		return sequencias;
 	}
 
-	public void setSequencias(Map<String, Integer> sequencias) {
+	public void setSequencias(List<Processo> sequencias) {
 		this.sequencias = sequencias;
 	}
+	
+	public void addPaginasProcessos(String processo, int paginas) {
+		paginasProcessos.put(processo, paginas);
+		
+	}
+	
+	public void addSequencia(String processo, int valor) {
+		sequencias.add(new Processo(processo, valor));
+	}
+
+	@Override
+	public String toString() {
+		return "Configuracao [tamanhoQuadros=" + tamanhoQuadros + "\n paginasProcessos=" + paginasProcessos.toString()
+				+ "\n tipoAlocacao=" + tipoAlocacao + "\n tipoSubstituicao=" + tipoSubstituicao + "\n sequencias="
+				+ sequencias.toString() + "]";
+	}
+
+
 
 }
