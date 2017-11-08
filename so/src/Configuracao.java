@@ -17,8 +17,8 @@ public class Configuracao {
 		setSequencias(new LinkedHashMap<String, Integer>());
 	}
 
-	public Configuracao(int tamanhoQuadros, LinkedHashMap paginasProcesso, String tipoAlocacao, String tipoSubstituicao,
-			LinkedHashMap sequencias) {
+	public Configuracao(int tamanhoQuadros, LinkedHashMap<String, Integer> paginasProcesso, String tipoAlocacao, String tipoSubstituicao,
+			LinkedHashMap<String, Integer> sequencias) {
 		setTamanhoQuadros(tamanhoQuadros);
 		setPaginasProcessos(paginasProcesso);
 		setTipoAlocacao(tipoAlocacao);
