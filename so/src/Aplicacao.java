@@ -7,6 +7,7 @@ public class Aplicacao {
 		try {
 			arquivo = new Arquivo();
 			arquivo.gerarConfiguracao();
+			
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Mensagem", JOptionPane.WARNING_MESSAGE);
