@@ -18,7 +18,7 @@ public class Arquivo {
 	}
 
 	/**
-	 * Método para pegar um arquivo em algum diretório da máquina
+	 * Metodo para pegar um arquivo em algum diretorio da maquina
 	 * 
 	 * @return nomeArquivo
 	 * @throws Exception
@@ -35,7 +35,7 @@ public class Arquivo {
 	}
 
 	/**
-	 * Método que criará arquivo de resposta a partir de uma String recebida
+	 * Metodo que criara arquivo de resposta a partir de uma String recebida
 	 * 
 	 * @param resposta
 	 * @throws Exception
@@ -63,8 +63,8 @@ public class Arquivo {
 		//Tamanho(quadros)
 		linha = file.readLine().split("=");
 		config.setTamanhoQuadros(Integer.parseInt(linha[1]));
-		// Processos(páginas):	
-		file.readLine(); //lendo título
+		// Processos(paginas):	
+		file.readLine(); //lendo titulo
 		while(!linhaArquivo.contains(";")) {
 			linhaArquivo = file.readLine();
 			lista.add(linhaArquivo.replaceAll(";", ""));
@@ -73,14 +73,14 @@ public class Arquivo {
 			linha = x.split("=");
 			config.addPaginasProcessos(linha[0], Integer.parseInt(linha[1]));
 		});
-		//Alocação
+		//Alocacao
 		linha = file.readLine().split("=");
 		config.setTipoAlocacao(linha[1]);		
-		//Substituição
+		//Substituicao
 		linha = file.readLine().split("=");
 		config.setTipoSubstituicao(linha[1]);
 		//Sequencia
-		file.readLine(); //lendo título
+		file.readLine(); //lendo titulo
 		lista = new ArrayList<String>();
 		linhaArquivo = "";
 		while(!linhaArquivo.contains(";")) {
