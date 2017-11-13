@@ -5,20 +5,20 @@ import java.util.Map;
 
 public class Configuracao {
 	private int tamanhoQuadros;
-	private Map<String, Integer> paginasProcessos;
+	private Map<String, Processo> paginasProcessos;
 	private String tipoAlocacao;
 	private String tipoSubstituicao;
 	private List<Processo> sequencias;
 
 	public Configuracao() {
 		setTamanhoQuadros(-1);
-		setPaginasProcessos(new LinkedHashMap<String, Integer>());
+		setPaginasProcessos(new LinkedHashMap<String, Processo>());
 		setTipoAlocacao(null);
 		setTipoSubstituicao(null);
 		setSequencias(new ArrayList<Processo>());
 	}
 
-	public Configuracao(int tamanhoQuadros, LinkedHashMap<String, Integer> paginasProcesso, String tipoAlocacao,
+	public Configuracao(int tamanhoQuadros, LinkedHashMap<String, Processo> paginasProcesso, String tipoAlocacao,
 			String tipoSubstituicao) {
 		setTamanhoQuadros(tamanhoQuadros);
 		setPaginasProcessos(paginasProcesso);
@@ -38,11 +38,11 @@ public class Configuracao {
 		this.tamanhoQuadros = tamanhoQuadros;
 	}
 
-	public Map<String, Integer> getPaginasProcessos() {
+	public Map<String, Processo> getPaginasProcessos() {
 		return paginasProcessos;
 	}
 
-	public void setPaginasProcessos(Map<String, Integer> paginasProcessos) {
+	public void setPaginasProcessos(Map<String, Processo> paginasProcessos) {
 		this.paginasProcessos = paginasProcessos;
 	}
 
@@ -70,9 +70,8 @@ public class Configuracao {
 		this.sequencias = sequencias;
 	}
 	
-	public void addPaginasProcessos(String processo, int paginas) {
-		paginasProcessos.put(processo, paginas);
-		
+	public void addPaginasProcessos(String nomeProcesso, int totalPaginas) {
+		paginasProcessos.put(nomeProcesso, new Processo(nomeProcesso, totalPaginas));
 	}
 	
 	public void addSequencia(String processo, int valor) {

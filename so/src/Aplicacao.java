@@ -6,9 +6,7 @@ public class Aplicacao {
 	public static void main(String[] args) throws Exception {
 		try {
 			arquivo = new Arquivo();
-			String dadosArquivo = arquivo.pegarDadosArquivo();
-			//System.out.println(dadosArquivo);
-			arquivo.gerarConfiguracao(dadosArquivo);
+			arquivo.gerarConfiguracao();
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Mensagem", JOptionPane.WARNING_MESSAGE);

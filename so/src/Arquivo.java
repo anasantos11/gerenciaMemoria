@@ -56,27 +56,7 @@ public class Arquivo {
 
 	}
 	
-	/**
-	 * Método que lê dados do arquivo selecionado
-	 * @return dadosArquivo
-	 * @throws IOException
-	 */
-	public String pegarDadosArquivo() throws IOException {
-		RandomAccessFile file = new RandomAccessFile(nomeArquivo, "r");
-		String dadosArquivo = null;
-		
-		while (file.getFilePointer() < file.length()) {					
-			if (dadosArquivo == null) {
-				dadosArquivo = file.readLine();
-			} else {
-				dadosArquivo = dadosArquivo + "\n" + file.readLine();
-			}
-		}
-		file.close();
-		return dadosArquivo;
-	}
-	
-	public void gerarConfiguracao(String dados) throws IOException {
+	public void gerarConfiguracao() throws IOException {
 		RandomAccessFile file = new RandomAccessFile(nomeArquivo, "r");
 		
 		Configuracao config = new Configuracao();
