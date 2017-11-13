@@ -1,14 +1,14 @@
 public class Processo {
 	private String nomeProcesso;
-	private int paginaProcesso;
+	private int totalPaginas;
 
 	public Processo(String nomeProcesso, int paginasProcesso) {
 		setNomeProcesso(nomeProcesso);
-		setPaginasProcesso(paginasProcesso);
+		setTotalPaginas(paginasProcesso);
 	}
 	public Processo() {
 		setNomeProcesso(null);
-		setPaginasProcesso(-1);
+		setTotalPaginas(-1);
 	}
 
 	public String getNomeProcesso() {
@@ -19,16 +19,16 @@ public class Processo {
 		this.nomeProcesso = nomeProcesso;
 	}
 
-	public int getPaginasProcesso() {
-		return paginaProcesso;
+	public int getTotalPaginas() {
+		return totalPaginas;
 	}
 
-	public void setPaginasProcesso(int paginasProcesso) {
-		this.paginaProcesso = paginasProcesso;
+	public void setTotalPaginas(int paginasProcesso) {
+		this.totalPaginas = paginasProcesso;
 	}
 	@Override
 	public String toString() {
-		return "Processo [nomeProcesso=" + nomeProcesso + ", paginaProcesso=" + paginaProcesso + "]";
+		return "Processo [nomeProcesso=" + nomeProcesso + ", paginaProcesso=" + totalPaginas + "]";
 	}
 
 }
