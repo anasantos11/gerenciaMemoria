@@ -5,7 +5,6 @@ public class Processo {
 	public Processo(String nomeProcesso, int paginasProcesso) {
 		setNomeProcesso(nomeProcesso);
 		setTotalPaginas(paginasProcesso);
-		//teste
 	}
 	public Processo() {
 		setNomeProcesso(null);
@@ -29,7 +28,7 @@ public class Processo {
 	}
 	@Override
 	public String toString() {
-		return "Processo [nomeProcesso=" + nomeProcesso + ", paginaProcesso=" + totalPaginas + "]";
+		return "Processo [nomeProcesso=" + nomeProcesso + ", totalPaginas=" + totalPaginas + "]";
 	}
 
 }

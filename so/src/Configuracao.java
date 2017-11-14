@@ -8,14 +8,15 @@ public class Configuracao {
 	private Map<String, Processo> paginasProcessos;
 	private String tipoAlocacao;
 	private String tipoSubstituicao;
-	private List<Processo> sequencias;
+	private List<Requisicao> requisicoes;
+	private Politica politica;
 
 	public Configuracao() {
 		setTamanhoQuadros(-1);
 		setPaginasProcessos(new LinkedHashMap<String, Processo>());
 		setTipoAlocacao(null);
 		setTipoSubstituicao(null);
-		setSequencias(new ArrayList<Processo>());
+		setRequisicoes(new ArrayList<Requisicao>());
 	}
 
 	public Configuracao(int tamanhoQuadros, LinkedHashMap<String, Processo> paginasProcesso, String tipoAlocacao,
@@ -24,7 +25,7 @@ public class Configuracao {
 		setPaginasProcessos(paginasProcesso);
 		setTipoAlocacao(tipoAlocacao);
 		setTipoSubstituicao(tipoSubstituicao);
-		setSequencias(sequencias);
+		setRequisicoes(requisicoes);
 	}
 
 	/**
@@ -62,12 +63,12 @@ public class Configuracao {
 		this.tipoSubstituicao = tipoSubstituicao;
 	}
 
-	public List<Processo> getSequencias() {
-		return sequencias;
+	public List<Requisicao> getRequisicoes() {
+		return requisicoes;
 	}
 
-	public void setSequencias(List<Processo> sequencias) {
-		this.sequencias = sequencias;
+	public void setRequisicoes(List<Requisicao> requisicoes) {
+		this.requisicoes = requisicoes;
 	}
 	
 	public void addPaginasProcessos(String nomeProcesso, int totalPaginas) {
@@ -75,14 +76,22 @@ public class Configuracao {
 	}
 	
 	public void addSequencia(String processo, int valor) {
-		sequencias.add(new Processo(processo, valor));
+		requisicoes.add(new Requisicao(processo, valor));
 	}
 
 	@Override
 	public String toString() {
 		return "Configuracao [tamanhoQuadros=" + tamanhoQuadros + "\n paginasProcessos=" + paginasProcessos.toString()
-				+ "\n tipoAlocacao=" + tipoAlocacao + "\n tipoSubstituicao=" + tipoSubstituicao + "\n sequencias="
-				+ sequencias.toString() + "]";
+				+ "\n tipoAlocacao=" + tipoAlocacao + "\n tipoSubstituicao=" + tipoSubstituicao + "\n requisicoes=\n"
+				+ requisicoes.toString();
+	}
+
+	public Politica getPolitica() {
+		return politica;
+	}
+
+	public void setPolitica(Politica politica) {
+		this.politica = politica;
 	}
 
 

@@ -26,5 +26,10 @@ public class Requisicao {
 	public void setPagina(int pagina) {
 		this.pagina = pagina;
 	}
+	
+	@Override
+	public String toString() {
+		return "" + processo + " , " + pagina + "\n";
+	}
 
 }

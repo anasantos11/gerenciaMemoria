@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -11,6 +10,7 @@ public class Arquivo {
 	private String nomeArquivo;
 	private static 	String linhaArquivo = "";
 	private static String[] linha;
+	
 	private static List<String> lista = new ArrayList<String>();
 
 	public Arquivo() throws Exception {
@@ -25,6 +25,7 @@ public class Arquivo {
 	 */
 
 	public static String pegarArquivo() throws Exception {
+		/*
 		JFileChooser arquivo = new JFileChooser();
 		int retorno = arquivo.showOpenDialog(null);
 		if (retorno == JFileChooser.CANCEL_OPTION) {
@@ -32,8 +33,12 @@ public class Arquivo {
 		}
 		String arquivoSelecionado = arquivo.getSelectedFile().getPath();
 		return arquivoSelecionado;
+	
+	*/
+		
+		return "/Users/carlos/git/gerenciaMemoria/so/src/entrada.txt";
 	}
-
+	
 	/**
 	 * Metodo que criara arquivo de resposta a partir de uma String recebida
 	 * 
@@ -56,14 +61,16 @@ public class Arquivo {
 
 	}
 	
-	public void gerarConfiguracao() throws IOException {
+	public Configuracao gerarConfiguracao() throws IOException {
+		
 		RandomAccessFile file = new RandomAccessFile(nomeArquivo, "r");
 		
 		Configuracao config = new Configuracao();
 		//Tamanho(quadros)
 		linha = file.readLine().split("=");
 		config.setTamanhoQuadros(Integer.parseInt(linha[1]));
-		// Processos(paginas):	
+		
+		// Processos(paginas):
 		file.readLine(); //lendo titulo
 		while(!linhaArquivo.contains(";")) {
 			linhaArquivo = file.readLine();
@@ -73,12 +80,15 @@ public class Arquivo {
 			linha = x.split("=");
 			config.addPaginasProcessos(linha[0], Integer.parseInt(linha[1]));
 		});
+		
 		//Alocacao
 		linha = file.readLine().split("=");
 		config.setTipoAlocacao(linha[1]);		
+		
 		//Substituicao
 		linha = file.readLine().split("=");
 		config.setTipoSubstituicao(linha[1]);
+		           
 		//Sequencia
 		file.readLine(); //lendo titulo
 		lista = new ArrayList<String>();
@@ -93,8 +103,18 @@ public class Arquivo {
 		});		
 		file.close();
 		
-		System.out.println(config.toString());
+		//System.out.println(config.toString());
 		
+		return config;
+		
+	}
+
+	public String getNomeArquivo() {
+		return nomeArquivo;
+	}
+
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
 	}
 	
 	
