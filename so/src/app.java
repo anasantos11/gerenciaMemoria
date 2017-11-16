@@ -8,8 +8,12 @@ public class app {
 		
 		Configuracao config = a.gerarConfiguracao();
 		
-		//System.out.println(config.getrequisicoes());
+		//System.out.println(config.getPaginasProcessos());
 		
-	}
+		FIFO f1 = new FIFO (config);
+		
+		f1.testeFIFO();
+			
+		}
 
 }

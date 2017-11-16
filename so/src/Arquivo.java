@@ -66,9 +66,10 @@ public class Arquivo {
 		RandomAccessFile file = new RandomAccessFile(nomeArquivo, "r");
 		
 		Configuracao config = new Configuracao();
+
 		//Tamanho(quadros)
 		linha = file.readLine().split("=");
-		config.setTamanhoQuadros(Integer.parseInt(linha[1]));
+		config.setQtdQuadros(Integer.parseInt(linha[1]));
 		
 		// Processos(paginas):
 		file.readLine(); //lendo titulo
@@ -79,6 +80,7 @@ public class Arquivo {
 		lista.forEach(x -> {
 			linha = x.split("=");
 			config.addPaginasProcessos(linha[0], Integer.parseInt(linha[1]));
+			config.setQtdProcessos(1);
 		});
 		
 		//Alocacao
@@ -102,6 +104,8 @@ public class Arquivo {
 			config.addSequencia(linha[0], Integer.parseInt(linha[1]));
 		});		
 		file.close();
+		
+		config.gerarQuadros();
 		
 		//System.out.println(config.toString());
 		
