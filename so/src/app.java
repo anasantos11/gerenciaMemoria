@@ -12,7 +12,7 @@ public class app {
 		
 		FIFO f1 = new FIFO (config);
 		
-		f1.testeFIFO();
+		f1.FifoGlobal();
 			
 		}
 
