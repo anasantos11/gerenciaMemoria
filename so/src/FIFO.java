@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.TreeMap;
 
@@ -7,52 +8,60 @@ public class FIFO extends Politica {
 	
 	Configuracao config;
 	int [] tamMemoria;
-	
+	int hits;
+	int QtdProcessos;
+	List<Requisicao> requisicoes;
+	ArrayList <Processo> processos;
 	
 	public FIFO ( Configuracao config ){
 		
 		this.config = config;
 		tamMemoria = config.gerarQuadros();
-		
+		hits = 0;
+		QtdProcessos = config.getQtdProcessos();
+		requisicoes = config.getRequisicoes();
+		processos = config.getProcessos();
 	}
 	
 	public void FifoLocal (){
 		
 		int i;
 		
-		TreeMap < String, Queue > map  = new TreeMap< String , Queue >();
+		TreeMap < String, Queue<?> > map  = new TreeMap< String , Queue<?> >();
 		TreeMap < String, Integer > mapMax  = new TreeMap< String , Integer >();
 		
 		
 		//ArrayList <TreeMap> a1 = new ArrayList<TreeMap>();
 		
-		for ( i = 0 ; i < config.getQtdProcessos() ; i++ ){
+		
+		for ( i = 0 ; i < QtdProcessos ; i++ ){
 			
-			map.put( config.getProcessos().get(i).getNomeProcesso() , new LinkedList() );
-			mapMax.put(config.getProcessos().get(i).getNomeProcesso() , tamMemoria[i]);
+			map.put( processos.get(i).getNomeProcesso() , new LinkedList<Object>() );
+			mapMax.put(processos.get(i).getNomeProcesso() , tamMemoria[i]);
 			
 		}
 		
 		i = 0;
-		int hits = 0;
+		hits = 0;
 		
-		for( Requisicao req : config.getRequisicoes()){
+		for( Requisicao req : requisicoes ){
 			
-			LinkedList queue = (LinkedList) map.get(req.getProcesso());
+			@SuppressWarnings("unchecked")
+			LinkedList<Integer> queue = (LinkedList<Integer>) map.get(req.getProcesso());
 			
 			if ( queue.size() <  mapMax.get(req.getProcesso()) ){
 				
 				if ( map.get(req.getProcesso()).contains(req.getPagina())){
 					i++;
 					hits++;
-					System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
 
 					
 				}else{
 					
 					queue.add(req.getPagina());
 					i++;
-					System.out.println( i + " ADD " + map);
+					//System.out.println( i + " ADD " + map);
 					
 				}
 				
@@ -61,13 +70,13 @@ public class FIFO extends Politica {
 				if ( map.get(req.getProcesso()).contains(req.getPagina())){
 					i++;
 					hits++;
-					System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
 					
 				}else{	
 				i++;
 				queue.remove();
 				queue.add(req.getPagina());
-				System.out.println(  i + " REM " + map);
+				//System.out.println(  i + " REM " + map);
 				}
 			}
 				
@@ -75,8 +84,8 @@ public class FIFO extends Politica {
 			
 		}
 		
-		System.out.println(map);
-		System.out.println(hits);
+		//System.out.println(map);
+		//System.out.println(hits);
 
 				
 		
@@ -87,12 +96,12 @@ public void FifoGlobal (){
 		
 		int i;
 		
-		TreeMap < String, Queue > map  = new TreeMap< String , Queue >();
+		TreeMap < String, Queue<?> > map  = new TreeMap< String , Queue<?> >();
 		TreeMap < String, Integer > mapMax  = new TreeMap< String , Integer >();
 				
-		for ( i = 0 ; i < config.getQtdProcessos() ; i++ ){
+		for ( i = 0 ; i < QtdProcessos ; i++ ){
 			
-			map.put( config.getProcessos().get(i).getNomeProcesso() , new LinkedList() );
+			map.put( config.getProcessos().get(i).getNomeProcesso() , new LinkedList<Requisicao>() );
 			mapMax.put(config.getProcessos().get(i).getNomeProcesso() , tamMemoria[i]);
 			
 		}
@@ -107,7 +116,7 @@ public void FifoGlobal (){
 		
 		i = 0;
 		
-		int hits = 0;
+		hits = 0;
 		
 		Queue <Requisicao> queue  =  new LinkedList <Requisicao> ();
 		
@@ -120,14 +129,14 @@ public void FifoGlobal (){
 					
 					i++;
 					hits++;
-					System.out.println( i + " HIT em " + req.getPagina() +"  " + queue);
+					//System.out.println( i + " HIT em " + req.getPagina() +"  " + queue);
 					
 					
 				}else{// ADICIONA
 					
 					 queue.add( req );
 					 i++;
-					System.out.println( i + " ADD " + queue);
+					//System.out.println( i + " ADD " + queue);
 					
 				}
 				
@@ -136,13 +145,13 @@ public void FifoGlobal (){
 				if ( queue.contains(req)){
 					i++;
 					hits++;
-					System.out.println( i + " HIT em " + req.getPagina() +"  " + queue);
+					//System.out.println( i + " HIT em " + req.getPagina() +"  " + queue);
 					
 				}else{	
-				i++;
-				queue.remove();
-				queue.add(req);
-				System.out.println(  i + " REM " + queue);
+					i++;
+					queue.remove();
+					queue.add(req);
+					//System.out.println(  i + " REM " + queue);
 				}
 				
 			}
@@ -152,7 +161,7 @@ public void FifoGlobal (){
 		}
 		
 		//System.out.println(queue);
-		System.out.println(hits);
+		//System.out.println(hits);
 
 				
 		

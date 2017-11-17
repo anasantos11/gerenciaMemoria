@@ -8,10 +8,9 @@ import javax.swing.JFileChooser;
 
 public class Arquivo {
 	private String nomeArquivo;
-	private static 	String linhaArquivo = "";
-	private static String[] linha;
-	
-	private static List<String> lista = new ArrayList<String>();
+	private String linhaArquivo = "";
+	private String[] linha;
+	private List<String> lista = new ArrayList<String>();
 
 	public Arquivo() throws Exception {
 		this.nomeArquivo = pegarArquivo();
