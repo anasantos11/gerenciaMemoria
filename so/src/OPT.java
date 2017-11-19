@@ -32,7 +32,7 @@ public class OPT extends Politica {
 		for (int i = 0; i < qtdProcessos; i++) {
 			mapQuadros.put(processos.get(i).getNomeProcesso(), new LinkedList<Object>());
 			requisicoesFuturas.put(processos.get(i).getNomeProcesso(), new LinkedList<Object>());
-			mapQuadrosMax.put(processos.get(i).getNomeProcesso() , tamMemoria[i]);
+			mapQuadrosMax.put(processos.get(i).getNomeProcesso(), tamMemoria[i]);
 		}
 		System.out.println("Total de quadros por processo" + mapQuadrosMax);
 
@@ -43,59 +43,27 @@ public class OPT extends Politica {
 		System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
 
 		// Realizar processamento das paginas
-		
+
 		for (Requisicao requisicao : requisicoes) {
 			@SuppressWarnings("unchecked")
 			LinkedList<Integer> quadro = (LinkedList<Integer>) mapQuadros.get(requisicao.getProcesso());
-			
-			
-		if(quadro.contains(requisicao.getPagina())) {
-			hits++;
-			requisicoesFuturas.get(requisicao.getProcesso()).remove();
-			System.out.println("Requisicoes Futuras apos remocao" + requisicoesFuturas);
-			System.out.println("HIT na requisicao da pagina" + requisicao.getPagina());
-		}else {
-			if(quadro.size() <  mapQuadrosMax.get(requisicao.getProcesso()) ) {
-				quadro.add(requisicao.getPagina());
-				System.out.println("Pagina adicionada sem remocao" + requisicao.getPagina());
-			}else {
-				
-				
-			}			
-		}
-			
-			
-		}
 
-		/*int i = 0;
-		for (Requisicao req : requisicoes) {
-			@SuppressWarnings("unchecked")
-			LinkedList<Integer> queue = (LinkedList<Integer>) mapQuadros.get(req.getProcesso());
-
-			if (queue.size() < mapQuadrosMax.get(req.getProcesso())) {
-				if (mapQuadros.get(req.getProcesso()).contains(req.getPagina())) {
-					i++;
-					hits++;
-					// System.out.println( i + " HIT em " + req.getPagina() +" " + map);
-
-				} else {
-					queue.add(req.getPagina());
-					i++;
-					// System.out.println( i + " ADD " + map);
-				}
+			if (quadro.contains(requisicao.getPagina())) {
+				hits++;
+				requisicoesFuturas.get(requisicao.getProcesso()).remove();
+				System.out.println("Requisicoes Futuras apos remocao" + requisicoesFuturas);
+				System.out.println("HIT na requisicao da pagina" + requisicao.getPagina());
 			} else {
-				if (mapQuadros.get(req.getProcesso()).contains(req.getPagina())) {
-					i++;
-					hits++;
-					// System.out.println( i + " HIT em " + req.getPagina() +" " + map);
+				if (quadro.size() < mapQuadrosMax.get(requisicao.getProcesso())) {
+					quadro.add(requisicao.getPagina());
+					System.out.println("Pagina adicionada sem remocao" + requisicao.getPagina());
 				} else {
-					i++;
-					queue.remove();
-					queue.add(req.getPagina());
-					// System.out.println( i + " REM " + map);
+
 				}
 			}
-		}*/
+
+		}
+
 	}
 
 }
