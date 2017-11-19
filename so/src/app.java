@@ -20,7 +20,7 @@ public class app {
 
 		
 		FIFO f1 = new FIFO (configuracoes.get(0));
-		//OPT f1 = new OPT (configuracoes.get(1));
+		OPT opt1 = new OPT (configuracoes.get(1));
 		LRU l1 = new LRU (configuracoes.get(2));
 		//LFU f1 = new LFU (configuracoes.get(3));
 		//MFU f1 = new MFU (configuracoes.get(4));
@@ -30,6 +30,9 @@ public class app {
 		f1.FifoLocal();
 		int fifo = f1.hits;
 		
+		opt1.OPTLocal();
+		int opt = opt1.getHits();
+
 		l1.LruLocal();
 		int lru = l1.hits;
 
@@ -38,7 +41,7 @@ public class app {
 		System.out.println("Requisições=" + requisicoes );
 		System.out.println("TaxasDeErros:");
 		System.out.println("FIFO=" + (double)(requisicoes -fifo)/requisicoes);
-		System.out.println("OPT=" + 0);
+		System.out.println("OPT=" + (double)(requisicoes - opt)/requisicoes);
 		System.out.println("LRU=" + (double)(requisicoes -lru)/requisicoes);
 		System.out.println("LFU=" + 0);
 		System.out.println("MFU=" + 0);

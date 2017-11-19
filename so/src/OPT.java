@@ -26,12 +26,12 @@ public class OPT extends Politica {
 	public void OPTLocal() {
 		TreeMap<String, Queue<?>> mapQuadros = new TreeMap<String, Queue<?>>();
 		TreeMap<String, Integer> mapQuadrosMax = new TreeMap<String, Integer>();
-		Map<String, LinkedList<Object>> requisicoesFuturas = new TreeMap<String, LinkedList<Object>>();
+		Map<String, LinkedList<Integer>> requisicoesFuturas = new TreeMap<String, LinkedList<Integer>>();
 
 		// Criando Maps para todos os processos que serao processados
 		for (int i = 0; i < qtdProcessos; i++) {
 			mapQuadros.put(processos.get(i).getNomeProcesso(), new LinkedList<Object>());
-			requisicoesFuturas.put(processos.get(i).getNomeProcesso(), new LinkedList<Object>());
+			requisicoesFuturas.put(processos.get(i).getNomeProcesso(), new LinkedList<Integer>());
 			mapQuadrosMax.put(processos.get(i).getNomeProcesso(), tamMemoria[i]);
 		}
 		System.out.println("Total de quadros por processo" + mapQuadrosMax);
@@ -42,6 +42,7 @@ public class OPT extends Politica {
 		}
 		System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
 
+		System.out.println("\n \n \n");
 		// Realizar processamento das paginas
 
 		for (Requisicao requisicao : requisicoes) {
@@ -50,15 +51,26 @@ public class OPT extends Politica {
 
 			if (quadro.contains(requisicao.getPagina())) {
 				hits++;
-				requisicoesFuturas.get(requisicao.getProcesso()).remove();
-				System.out.println("Requisicoes Futuras apos remocao" + requisicoesFuturas);
-				System.out.println("HIT na requisicao da pagina" + requisicao.getPagina());
+				removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
+				System.out.println("HIT - " + requisicao + " " + mapQuadros);
 			} else {
 				if (quadro.size() < mapQuadrosMax.get(requisicao.getProcesso())) {
 					quadro.add(requisicao.getPagina());
-					System.out.println("Pagina adicionada sem remocao" + requisicao.getPagina());
+					removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
+					System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
 				} else {
-
+					int indicePag = 0;
+					if (quadro.size() > 1) {
+						indicePag = quadro.indexOf(retirarPagina(quadro, requisicoesFuturas, requisicao.getProcesso()));
+						if(indicePag == -1) {
+							indicePag = 0;
+						}
+							
+					}
+					quadro.remove(indicePag);
+					quadro.add(indicePag, requisicao.getPagina());
+					removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
+					System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
 				}
 			}
 
@@ -66,4 +78,49 @@ public class OPT extends Politica {
 
 	}
 
+	public void removerRequisicaoFutura(Map<String, LinkedList<Integer>> requisicoesFuturas, String processo) {
+		requisicoesFuturas.get(processo).remove();
+		//System.out.println("Nova lista de requisicoes futuras" + requisicoesFuturas);
+	}
+
+	public int retirarPagina(LinkedList<Integer> quadro, Map<String, LinkedList<Integer>> requisicoesFuturas,
+			String processo) {
+
+		Map<Integer, Integer> indicesPagFuturas = new TreeMap<Integer, Integer>();
+		LinkedList<Integer> paginasSemRequisicaoFuturo = new  LinkedList<Integer>();
+		paginasSemRequisicaoFuturo.addAll(quadro);
+		
+				
+		for (Integer pagina : requisicoesFuturas.get(processo)) {
+			if (quadro.contains(pagina) && !indicesPagFuturas.containsValue(pagina)) {
+				indicesPagFuturas.put(requisicoesFuturas.get(processo).indexOf(pagina), pagina);
+				paginasSemRequisicaoFuturo.remove(paginasSemRequisicaoFuturo.indexOf(pagina));
+			}
+		}
+		if(paginasSemRequisicaoFuturo.size() > 0) {
+			return paginasSemRequisicaoFuturo.getFirst();
+		}else {
+			LinkedList<Integer> x = new LinkedList<Integer>();
+			x.addAll(indicesPagFuturas.values());
+
+			System.out.println("Indices das paginas " + indicesPagFuturas);
+			if (x.size() > 0) {
+				return x.getLast();
+			} else {
+				return -1;
+			}
+		}
+		
+
+	}
+
+	public int getHits() {
+		return hits;
+	}
+
+	public List<Requisicao> getRequisicoes() {
+		return requisicoes;
+	}
+	
+	
 }
