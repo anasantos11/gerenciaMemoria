@@ -14,7 +14,6 @@ public class FIFO extends Politica {
 	ArrayList <Processo> processos;
 	
 	public FIFO ( Configuracao config ){
-		
 		this.config = config;
 		tamMemoria = config.gerarQuadros();
 		hits = 0;
@@ -23,7 +22,21 @@ public class FIFO extends Politica {
 		processos = config.getProcessos();
 	}
 	
-	public void FifoLocal (){
+	public void Processar (){
+		
+		if ( this.config.getTipoSubstituicao().equals("Global") ){
+			
+			this.Global();
+			
+		}else{
+			
+			this.Local();
+			
+		}
+		
+	}
+	@Override
+	public void Local (){
 		
 		int i;
 		
@@ -91,8 +104,8 @@ public class FIFO extends Politica {
 		
 		
 	}
-	
-public void FifoGlobal (){
+	@Override
+	public void Global(){
 		
 		int i;
 		

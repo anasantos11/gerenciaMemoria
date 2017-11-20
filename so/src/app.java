@@ -28,13 +28,13 @@ public class app {
 		MY my = new MY (configuracoes.get(5));
 
 
-		fif.FifoLocal();
+		fif.Processar();
 		int fifo = fif.hits;
 		
-		op.OPTLocal();
+		op.Processar();
 		int opt = op.getHits();
 
-		lr.LruLocal();
+		lr.Processar();
 		int lru = lr.hits;
 
 		int requisicoes = configuracoes.get(0).getRequisicoes().size();

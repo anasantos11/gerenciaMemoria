@@ -22,8 +22,22 @@ public class OPT extends Politica {
 		this.requisicoes = config.getRequisicoes();
 		this.processos = config.getProcessos();
 	}
-
-	public void OPTLocal() {
+	
+	public void Processar (){
+		
+		if ( this.config.getTipoSubstituicao().equals("Global") ){
+			
+			this.Global();
+			
+		}else{
+			
+			this.Local();
+			
+		}
+		
+	}
+	
+	public void Local() {
 		TreeMap<String, Queue<?>> mapQuadros = new TreeMap<String, Queue<?>>();
 		TreeMap<String, Integer> mapQuadrosMax = new TreeMap<String, Integer>();
 		Map<String, LinkedList<Integer>> requisicoesFuturas = new TreeMap<String, LinkedList<Integer>>();
@@ -76,6 +90,12 @@ public class OPT extends Politica {
 
 		}
 
+	}
+	
+	public void Global (){
+		
+		
+		
 	}
 
 	public void removerRequisicaoFutura(Map<String, LinkedList<Integer>> requisicoesFuturas, String processo) {
