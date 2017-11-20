@@ -60,4 +60,9 @@ public class Requisicao {
 		return true;
 	}
 
+	public int compareTo(ReqEspecial req) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -19,30 +20,40 @@ public class app {
 
 
 		
-		FIFO f1 = new FIFO (configuracoes.get(0));
-		OPT opt1 = new OPT (configuracoes.get(1));
-		LRU l1 = new LRU (configuracoes.get(2));
-		//LFU f1 = new LFU (configuracoes.get(3));
-		//MFU f1 = new MFU (configuracoes.get(4));
-		//MY f1 = new MY (configuracoes.get(4));
+		FIFO fif = new FIFO (configuracoes.get(0));
+		OPT op = new OPT (configuracoes.get(1));
+		LRU lr = new LRU (configuracoes.get(2));
+		LFU lf = new LFU (configuracoes.get(3));
+		MFU mf = new MFU (configuracoes.get(4));
+		MY my = new MY (configuracoes.get(5));
 
 
-		f1.FifoLocal();
-		int fifo = f1.hits;
+		fif.FifoLocal();
+		int fifo = fif.hits;
 		
-		opt1.OPTLocal();
-		int opt = opt1.getHits();
+		op.OPTLocal();
+		int opt = op.getHits();
 
-		l1.LruLocal();
-		int lru = l1.hits;
+		lr.LruLocal();
+		int lru = lr.hits;
 
 		int requisicoes = configuracoes.get(0).getRequisicoes().size();
 		
+		DecimalFormat df = new DecimalFormat("#.##");
+		String fifoOut = df.format((double)(requisicoes -fifo)/requisicoes);
+		String optOut = df.format((double)(requisicoes - opt)/requisicoes);
+		String lruOut = df.format((double)(requisicoes -lru)/requisicoes);
+		//String lfuOut = df.format((double)(requisicoes -lfu)/requisicoes);
+		//String mfuOut = df.format((double)(requisicoes -fifo)/requisicoes);
+		//String myOut = df.format((double)(requisicoes -fifo)/requisicoes);
+
+		
+		
 		System.out.println("Requisições=" + requisicoes );
 		System.out.println("TaxasDeErros:");
-		System.out.println("FIFO=" + (double)(requisicoes -fifo)/requisicoes);
-		System.out.println("OPT=" + (double)(requisicoes - opt)/requisicoes);
-		System.out.println("LRU=" + (double)(requisicoes -lru)/requisicoes);
+		System.out.println("FIFO=" + fifoOut);
+		System.out.println("OPT=" + optOut );
+		System.out.println("LRU=" + lruOut);
 		System.out.println("LFU=" + 0);
 		System.out.println("MFU=" + 0);
 		System.out.println("MY=" + 0);

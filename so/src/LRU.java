@@ -44,7 +44,7 @@
 					if ( map.get(req.getProcesso()).contains(req)){
 						i++;
 						hits++;
-						//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+						System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
 						queue.remove(req);
 						queue.add(req);
 						
@@ -53,7 +53,7 @@
 						
 						queue.add(req);
 						i++;
-						//System.out.println( i + " ADD " + map);
+						System.out.println( i + " ADD " + map);
 						
 					}
 					
@@ -62,7 +62,7 @@
 					if ( map.get(req.getProcesso()).contains(req)){
 						i++;
 						hits++;
-						//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+						System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
 						queue.remove(req);
 						queue.add(req);
 						
@@ -70,7 +70,7 @@
 					i++;
 					queue.remove();
 					queue.add(req);
-					//System.out.println(  i + " REM " + map);
+					System.out.println(  i + " REM " + map);
 					}
 				}
 					
@@ -78,8 +78,8 @@
 				
 			}
 			
-			//System.out.println(map);
-			//System.out.println(hits);
+			System.out.println(map);
+			System.out.println(hits);
 
 			
 			
