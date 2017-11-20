@@ -42,10 +42,7 @@ public class FIFO extends Politica {
 		
 		TreeMap < String, Queue<?> > map  = new TreeMap< String , Queue<?> >();
 		TreeMap < String, Integer > mapMax  = new TreeMap< String , Integer >();
-		
-		
-		//ArrayList <TreeMap> a1 = new ArrayList<TreeMap>();
-		
+				
 		
 		for ( i = 0 ; i < QtdProcessos ; i++ ){
 			

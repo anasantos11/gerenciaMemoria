@@ -36,15 +36,19 @@ public class app {
 
 		lr.Processar();
 		int lru = lr.hits;
+		
+		mf.Processar();
+		int mfu = mf.hits;
 
 		int requisicoes = configuracoes.get(0).getRequisicoes().size();
 		
 		DecimalFormat df = new DecimalFormat("#.##");
+		
 		String fifoOut = df.format((double)(requisicoes -fifo)/requisicoes);
 		String optOut = df.format((double)(requisicoes - opt)/requisicoes);
 		String lruOut = df.format((double)(requisicoes -lru)/requisicoes);
 		//String lfuOut = df.format((double)(requisicoes -lfu)/requisicoes);
-		//String mfuOut = df.format((double)(requisicoes -fifo)/requisicoes);
+		String mfuOut = df.format((double)(requisicoes - mfu)/requisicoes);
 		//String myOut = df.format((double)(requisicoes -fifo)/requisicoes);
 
 		
@@ -55,7 +59,7 @@ public class app {
 		System.out.println("OPT=" + optOut );
 		System.out.println("LRU=" + lruOut);
 		System.out.println("LFU=" + 0);
-		System.out.println("MFU=" + 0);
+		System.out.println("MFU=" + mfuOut);
 		System.out.println("MY=" + 0);
 
 		

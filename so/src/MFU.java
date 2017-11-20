@@ -1,5 +1,5 @@
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.TreeMap;
 
 public class MFU extends Politica{
@@ -40,7 +40,7 @@ public class MFU extends Politica{
 		
 		int i;
 		
-		TreeMap < String, Queue<?> > map  = new TreeMap< String , Queue<?> >();
+		TreeMap < String, LinkedList<?> > map  = new TreeMap< String , LinkedList<?> >();
 		TreeMap < String, Integer > mapMax  = new TreeMap< String , Integer >();
 				
 		for ( i = 0 ; i < config.getQtdProcessos() ; i++ ){
@@ -61,11 +61,21 @@ public class MFU extends Politica{
 			if ( queue.size() <  mapMax.get(req.getProcesso()) ){// memoria nao cheia
 				
 				if ( map.get(req.getProcesso()).contains(req)){
+					
 					i++;
 					hits++;
+					for (Requisicao r : queue ){
+						
+						r.setCont(1);
+						
+						if ( req == r ){
+							
+							r.setHits(1);
+							
+						}
+						
+					}
 					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
-					queue.remove(req);
-					queue.add(req);
 					
 					
 				}else{
@@ -74,22 +84,50 @@ public class MFU extends Politica{
 					i++;
 					//System.out.println( i + " ADD " + map);
 					
+					for ( Requisicao r : queue ){
+						
+						r.setCont(1);
+						
+					}
+					
 				}
 				
 			}else{// memoria cheia
 				
 				if ( map.get(req.getProcesso()).contains(req)){
+					
 					i++;
 					hits++;
+					
+					for (Requisicao r : queue ){
+						
+						r.setCont(1);
+						if ( req == r ){
+							
+							r.setHits(1);
+							
+						}
+						
+					}
+					
 					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
-					queue.remove(req);
-					queue.add(req);
+					
 					
 				}else{	
-				i++;
-				queue.remove();
-				queue.add(req);
-				//System.out.println(  i + " REM " + map);
+					// ESTA CHEIO E PRECISA REMOVER
+					i++;
+					
+					
+					queue.remove(Collections.max(queue));
+					queue.add(req);
+					//System.out.println(  i + " REM " + map);
+					
+					for ( Requisicao r : queue ){
+						
+						r.setCont(1);
+						
+					}
+					
 				}
 			}
 				
@@ -97,8 +135,8 @@ public class MFU extends Politica{
 			
 		}
 		
-		//System.out.println(map);
-		//System.out.println(hits);
+		System.out.println(map);
+		System.out.println(hits);
 
 		
 		
