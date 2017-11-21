@@ -31,7 +31,7 @@ public class Requisicao implements Comparable<Requisicao>{
 	
 	@Override
 	public String toString() {
-		return "" + processo + " , " + pagina + "\n";
+		return "" + processo + " , " + pagina + " , " + hits + " , " + cont + "\n";
 	}
 
 	@Override

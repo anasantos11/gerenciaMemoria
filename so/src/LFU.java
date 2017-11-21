@@ -46,21 +46,21 @@ public class LFU extends Politica{
 		
 		hits = 0;
 		
-		LinkedList <Requisicao> queue  =  new LinkedList <Requisicao> ();
+		LinkedList <Requisicao> list  =  new LinkedList <Requisicao> ();
 		
 		for( Requisicao req : config.getRequisicoes()){			
 			
-			if ( queue.size() <  espaco ){// memoria nao cheia
+			if ( list.size() <  espaco ){// memoria nao cheia
 				
-				if ( queue.contains(req) ){
+				if ( list.contains(req) ){
 					
 					i++;
 					hits++;
-					for (Requisicao r : queue ){
+					for (Requisicao r : list ){
 						
 						r.setCont(1);
 						
-						if ( req == r ){
+						if ( req.equals(r) ){
 							
 							r.setHits(1);
 							
@@ -72,11 +72,11 @@ public class LFU extends Politica{
 					
 				}else{
 					
-					queue.add(req);
+					list.add(req);
 					i++;
 					//System.out.println( i + " ADD " + map);
 					
-					for ( Requisicao r : queue ){
+					for ( Requisicao r : list ){
 						
 						r.setCont(1);
 						
@@ -86,15 +86,15 @@ public class LFU extends Politica{
 				
 			}else{// memoria cheia
 				
-				if ( queue.contains(req) ){
+				if ( list.contains(req) ){
 					
 					i++;
 					hits++;
 					
-					for (Requisicao r : queue ){
+					for (Requisicao r : list ){
 						
 						r.setCont(1);
-						if ( req == r ){
+						if ( req.equals(r) ){
 							
 							r.setHits(1);
 							
@@ -110,11 +110,11 @@ public class LFU extends Politica{
 					i++;
 					
 					
-					queue.remove(Collections.min(queue));
-					queue.add(req);
+					list.remove(Collections.min(list));
+					list.add(req);
 					//System.out.println(  i + " REM " + map);
 					
-					for ( Requisicao r : queue ){
+					for ( Requisicao r : list ){
 						
 						r.setCont(1);
 						
@@ -127,9 +127,9 @@ public class LFU extends Politica{
 			
 		}
 		
-		//System.out.println(queue);
-		System.out.println(hits);
-//
+		//System.out.println(list);
+		//System.out.println(hits);
+
 		
 		
 	}
@@ -154,19 +154,20 @@ public class LFU extends Politica{
 		for( Requisicao req : config.getRequisicoes()){
 			
 			@SuppressWarnings("unchecked")
-			LinkedList<Requisicao> queue = (LinkedList<Requisicao>) map.get(req.getProcesso());
+			LinkedList<Requisicao> list = (LinkedList<Requisicao>) map.get(req.getProcesso());
 			
-			if ( queue.size() <  mapMax.get(req.getProcesso()) ){// memoria nao cheia
+			if ( list.size() <  mapMax.get(req.getProcesso()) ){// memoria nao cheia
 				
 				if ( map.get(req.getProcesso()).contains(req)){
 					
 					i++;
 					hits++;
-					for (Requisicao r : queue ){
+					
+					for (Requisicao r : list ){
 						
 						r.setCont(1);
 						
-						if ( req == r ){
+						if ( req.equals(r) ){
 							
 							r.setHits(1);
 							
@@ -178,11 +179,11 @@ public class LFU extends Politica{
 					
 				}else{
 					
-					queue.add(req);
+					list.add(req);
 					i++;
 					//System.out.println( i + " ADD " + map);
 					
-					for ( Requisicao r : queue ){
+					for ( Requisicao r : list ){
 						
 						r.setCont(1);
 						
@@ -197,10 +198,11 @@ public class LFU extends Politica{
 					i++;
 					hits++;
 					
-					for (Requisicao r : queue ){
+					for (Requisicao r : list ){
 						
 						r.setCont(1);
-						if ( req == r ){
+						
+						if ( req.equals(r) ){
 							
 							r.setHits(1);
 							
@@ -211,16 +213,17 @@ public class LFU extends Politica{
 					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
 					
 					
-				}else{	
-					// ESTA CHEIO E PRECISA REMOVER
+				}else{	// ESTA CHEIO E PRECISA REMOVER
+					
+					
 					i++;
 					
 					
-					queue.remove(Collections.min(queue));
-					queue.add(req);
+					list.remove(Collections.min(list));
+					list.add(req);
 					//System.out.println(  i + " REM " + map);
 					
-					for ( Requisicao r : queue ){
+					for ( Requisicao r : list ){
 						
 						r.setCont(1);
 						
@@ -233,8 +236,8 @@ public class LFU extends Politica{
 			
 		}
 		
-		System.out.println(map);
-		System.out.println(hits);
+		//System.out.println(map);
+		//System.out.println(hits);
 
 		
 		

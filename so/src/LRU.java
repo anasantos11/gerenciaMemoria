@@ -114,7 +114,7 @@ import java.util.Queue;
 			
 			int i;
 			
-			TreeMap < String, LinkedList<?> > map  = new TreeMap< String , LinkedList<?> >();
+			TreeMap < String, Queue<?> > map  = new TreeMap< String , Queue<?> >();
 			TreeMap < String, Integer > mapMax  = new TreeMap< String , Integer >();
 					
 			for ( i = 0 ; i < config.getQtdProcessos() ; i++ ){
@@ -130,15 +130,16 @@ import java.util.Queue;
 			for( Requisicao req : config.getRequisicoes()){
 				
 				@SuppressWarnings("unchecked")
-				LinkedList<Requisicao> list = (LinkedList<Requisicao>) map.get(req.getProcesso());
+				Queue <Requisicao> list = (Queue<Requisicao>) map.get(req.getProcesso());
 				
-				if ( list.size() <  mapMax.get(req.getProcesso()) ){
+				if ( list.size() <  mapMax.get(req.getProcesso()) ){// list nao cheia
 					
 					if ( map.get(req.getProcesso()).contains(req)){
 						i++;
 						hits++;
 						//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
-						
+						list.remove(req);
+						list.add(req);
 						
 						
 					}else{
@@ -155,6 +156,8 @@ import java.util.Queue;
 						i++;
 						hits++;
 						//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+						list.remove(req);
+						list.add(req);
 						
 					}else{	
 					i++;

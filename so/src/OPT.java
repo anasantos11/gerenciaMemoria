@@ -48,15 +48,15 @@ public class OPT extends Politica {
 			requisicoesFuturas.put(processos.get(i).getNomeProcesso(), new LinkedList<Integer>());
 			mapQuadrosMax.put(processos.get(i).getNomeProcesso(), tamMemoria[i]);
 		}
-		System.out.println("Total de quadros por processo" + mapQuadrosMax);
+		//System.out.println("Total de quadros por processo" + mapQuadrosMax);
 
 		// Colocando todas as requisicoes em uma lista para saber as requisicoes futuras
 		for (Requisicao requisicao : requisicoes) {
 			requisicoesFuturas.get(requisicao.getProcesso()).add(requisicao.getPagina());
 		}
-		System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
+		//System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
 
-		System.out.println("\n \n \n");
+		//System.out.println("\n \n \n");
 		// Realizar processamento das paginas
 
 		for (Requisicao requisicao : requisicoes) {
@@ -66,12 +66,12 @@ public class OPT extends Politica {
 			if (quadro.contains(requisicao.getPagina())) {
 				hits++;
 				removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
-				System.out.println("HIT - " + requisicao + " " + mapQuadros);
+				//System.out.println("HIT - " + requisicao + " " + mapQuadros);
 			} else {
 				if (quadro.size() < mapQuadrosMax.get(requisicao.getProcesso())) {
 					quadro.add(requisicao.getPagina());
 					removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
-					System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
+					//System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
 				} else {
 					int indicePag = 0;
 					if (quadro.size() > 1) {
@@ -84,7 +84,7 @@ public class OPT extends Politica {
 					quadro.remove(indicePag);
 					quadro.add(indicePag, requisicao.getPagina());
 					removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
-					System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
+					//System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
 				}
 			}
 

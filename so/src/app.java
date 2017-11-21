@@ -25,7 +25,7 @@ public class app {
 		LRU lr = new LRU (configuracoes.get(2));
 		LFU lf = new LFU (configuracoes.get(3));
 		MFU mf = new MFU (configuracoes.get(4));
-		MY my = new MY (configuracoes.get(5));
+		MY m = new MY (configuracoes.get(5));
 
 
 		fif.Processar();
@@ -42,6 +42,9 @@ public class app {
 		
 		lf.Processar();
 		int lfu = lf.hits;
+		
+		m.Processar();
+		int my = m.hits;
 
 		int requisicoes = configuracoes.get(0).getRequisicoes().size();
 		
@@ -52,7 +55,7 @@ public class app {
 		String lruOut = df.format((double)(requisicoes -lru)/requisicoes);
 		String lfuOut = df.format((double)(requisicoes -lfu)/requisicoes);
 		String mfuOut = df.format((double)(requisicoes - mfu)/requisicoes);
-		//String myOut = df.format((double)(requisicoes -my)/requisicoes);
+		String myOut = df.format((double)(requisicoes -my)/requisicoes);
 
 		
 		
@@ -63,7 +66,7 @@ public class app {
 		System.out.println("LRU=" + lruOut);
 		System.out.println("LFU=" + lfuOut);
 		System.out.println("MFU=" + mfuOut);
-		System.out.println("MY=" + 0);
+		System.out.println("MY=" + myOut);
 
 		
 
