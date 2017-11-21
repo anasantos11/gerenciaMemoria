@@ -32,6 +32,103 @@ public class MFU extends Politica{
 	
 	public void Global (){
 		
+		int i;
+		
+		int espaco = 0;
+		
+		for ( i = 0 ; i < tamMemoria.length ; i++ ){
+			
+			espaco += tamMemoria[i];
+			
+		}
+		
+		i = 0;
+		
+		hits = 0;
+		
+		LinkedList <Requisicao> queue  =  new LinkedList <Requisicao> ();
+		for( Requisicao req : config.getRequisicoes()){			
+			
+			if ( queue.size() <  espaco ){// memoria nao cheia
+				
+				if ( queue.contains(req) ){
+					
+					i++;
+					hits++;
+					for (Requisicao r : queue ){
+						
+						r.setCont(1);
+						
+						if ( req == r ){
+							
+							r.setHits(1);
+							
+						}
+						
+					}
+					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+					
+					
+				}else{
+					
+					queue.add(req);
+					i++;
+					//System.out.println( i + " ADD " + map);
+					
+					for ( Requisicao r : queue ){
+						
+						r.setCont(1);
+						
+					}
+					
+				}
+				
+			}else{// memoria cheia
+				
+				if ( queue.contains(req) ){
+					
+					i++;
+					hits++;
+					
+					for (Requisicao r : queue ){
+						
+						r.setCont(1);
+						if ( req == r ){
+							
+							r.setHits(1);
+							
+						}
+						
+					}
+					
+					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
+					
+					
+				}else{	
+					// ESTA CHEIO E PRECISA REMOVER
+					i++;
+					
+					
+					queue.remove(Collections.max(queue));
+					queue.add(req);
+					//System.out.println(  i + " REM " + map);
+					
+					for ( Requisicao r : queue ){
+						
+						r.setCont(1);
+						
+					}
+					
+				}
+			}
+				
+		
+			
+		}
+		
+		//System.out.println(queue);
+		//System.out.println(hits);
+
 		
 		
 	}
@@ -135,8 +232,8 @@ public class MFU extends Politica{
 			
 		}
 		
-		System.out.println(map);
-		System.out.println(hits);
+		//System.out.println(map);
+		//System.out.println(hits);
 
 		
 		
