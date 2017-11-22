@@ -123,7 +123,7 @@ public class OPT extends Politica {
 			LinkedList<Integer> x = new LinkedList<Integer>();
 			x.addAll(indicesPagFuturas.values());
 
-			System.out.println("Indices das paginas " + indicesPagFuturas);
+			//System.out.println("Indices das paginas " + indicesPagFuturas);
 			if (x.size() > 0) {
 				return x.getLast();
 			} else {

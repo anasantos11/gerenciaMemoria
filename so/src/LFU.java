@@ -46,21 +46,22 @@ public class LFU extends Politica{
 		
 		hits = 0;
 		
-		LinkedList <Requisicao> list  =  new LinkedList <Requisicao> ();
+		LinkedList <Requisicao> queue  =  new LinkedList <Requisicao> ();
 		
 		for( Requisicao req : config.getRequisicoes()){			
 			
-			if ( list.size() <  espaco ){// memoria nao cheia
+			if ( queue.size() <  espaco ){// memoria nao cheia
 				
-				if ( list.contains(req) ){
+				if ( queue.contains(req) ){
 					
 					i++;
 					hits++;
-					for (Requisicao r : list ){
+					
+					for (Requisicao r : queue ){
 						
 						r.setCont(1);
 						
-						if ( req.equals(r) ){
+						if ( req.equals(r)  ){
 							
 							r.setHits(1);
 							
@@ -72,11 +73,11 @@ public class LFU extends Politica{
 					
 				}else{
 					
-					list.add(req);
+					queue.add(req);
 					i++;
 					//System.out.println( i + " ADD " + map);
 					
-					for ( Requisicao r : list ){
+					for ( Requisicao r : queue ){
 						
 						r.setCont(1);
 						
@@ -86,12 +87,12 @@ public class LFU extends Politica{
 				
 			}else{// memoria cheia
 				
-				if ( list.contains(req) ){
+				if ( queue.contains(req) ){
 					
 					i++;
 					hits++;
 					
-					for (Requisicao r : list ){
+					for (Requisicao r : queue ){
 						
 						r.setCont(1);
 						if ( req.equals(r) ){
@@ -110,11 +111,11 @@ public class LFU extends Politica{
 					i++;
 					
 					
-					list.remove(Collections.min(list));
-					list.add(req);
+					queue.remove(Collections.min(queue));
+					queue.add(req);
 					//System.out.println(  i + " REM " + map);
 					
-					for ( Requisicao r : list ){
+					for ( Requisicao r : queue ){
 						
 						r.setCont(1);
 						
@@ -127,7 +128,7 @@ public class LFU extends Politica{
 			
 		}
 		
-		//System.out.println(list);
+		//System.out.println(queue);
 		//System.out.println(hits);
 
 		
@@ -154,20 +155,20 @@ public class LFU extends Politica{
 		for( Requisicao req : config.getRequisicoes()){
 			
 			@SuppressWarnings("unchecked")
-			LinkedList<Requisicao> list = (LinkedList<Requisicao>) map.get(req.getProcesso());
+			LinkedList<Requisicao> queue = (LinkedList<Requisicao>) map.get(req.getProcesso());
 			
-			if ( list.size() <  mapMax.get(req.getProcesso()) ){// memoria nao cheia
+			if ( queue.size() <  mapMax.get(req.getProcesso()) ){// memoria nao cheia
 				
 				if ( map.get(req.getProcesso()).contains(req)){
 					
 					i++;
 					hits++;
 					
-					for (Requisicao r : list ){
+					for (Requisicao r : queue ){
 						
 						r.setCont(1);
 						
-						if ( req.equals(r) ){
+						if ( req == r ){
 							
 							r.setHits(1);
 							
@@ -179,11 +180,11 @@ public class LFU extends Politica{
 					
 				}else{
 					
-					list.add(req);
+					queue.add(req);
 					i++;
 					//System.out.println( i + " ADD " + map);
 					
-					for ( Requisicao r : list ){
+					for ( Requisicao r : queue ){
 						
 						r.setCont(1);
 						
@@ -198,11 +199,10 @@ public class LFU extends Politica{
 					i++;
 					hits++;
 					
-					for (Requisicao r : list ){
+					for (Requisicao r : queue ){
 						
 						r.setCont(1);
-						
-						if ( req.equals(r) ){
+						if ( req == r ){
 							
 							r.setHits(1);
 							
@@ -213,17 +213,16 @@ public class LFU extends Politica{
 					//System.out.println( i + " HIT em " + req.getPagina() +"  " + map);
 					
 					
-				}else{	// ESTA CHEIO E PRECISA REMOVER
-					
-					
+				}else{	
+					// ESTA CHEIO E PRECISA REMOVER
 					i++;
 					
 					
-					list.remove(Collections.min(list));
-					list.add(req);
+					queue.remove(Collections.min(queue));
+					queue.add(req);
 					//System.out.println(  i + " REM " + map);
 					
-					for ( Requisicao r : list ){
+					for ( Requisicao r : queue ){
 						
 						r.setCont(1);
 						
@@ -236,8 +235,8 @@ public class LFU extends Politica{
 			
 		}
 		
-		//System.out.println(map);
-		//System.out.println(hits);
+		System.out.println(map);
+		System.out.println(hits);
 
 		
 		

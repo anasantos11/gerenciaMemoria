@@ -109,7 +109,7 @@ public class MY extends Politica {
 
 					queue.remove(Collections.max(queue));
 					queue.add(req);
-					System.out.println(i + " REM " + queue);
+					//System.out.println(i + " REM " + queue);
 
 					for (Requisicao r : queue) {
 

@@ -65,10 +65,12 @@ public class Requisicao implements Comparable<Requisicao>{
 	public int compareTo(Requisicao reqs){
 
 		if (this.hits == reqs.getHits()){
-			if ( this.cont > reqs.getCont() )
-				return 1;
-			else
+			if ( this.cont == reqs.getCont() )// POLITICA DO FIFO
+				return 0;
+			else if (this.cont > reqs.getCont() )
 				return -1;
+			else
+				return 1;
 		}else if (this.hits > reqs.getHits() )
 			return 1;
 		else
