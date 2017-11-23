@@ -1,8 +1,10 @@
 
-public class Requisicao {
+public class Requisicao implements Comparable<Requisicao>{
 	
 	private String processo;
 	private int pagina;
+	private int hits;
+	private int cont;
 	
 	public Requisicao(String pro,int pag){
 		
@@ -29,7 +31,7 @@ public class Requisicao {
 	
 	@Override
 	public String toString() {
-		return "" + processo + " , " + pagina + "\n";
+		return "" + processo + " , " + pagina + " , " + hits + " , " + cont + "\n";
 	}
 
 	@Override
@@ -58,6 +60,38 @@ public class Requisicao {
 		} else if (!processo.equals(other.processo))
 			return false;
 		return true;
+	}
+	@Override
+	public int compareTo(Requisicao reqs){
+
+		if (this.hits == reqs.getHits()){
+			if ( this.cont == reqs.getCont() )// POLITICA DO FIFO
+				return 0;
+			else if (this.cont > reqs.getCont() )
+				return -1;
+			else
+				return 1;
+		}else if (this.hits > reqs.getHits() )
+			return 1;
+		else
+			return -1;
+		
+	}
+
+	public int getHits() {
+		return hits;
+	}
+
+	public void setHits(int hits) {
+		this.hits += hits;
+	}
+
+	public int getCont() {
+		return cont;
+	}
+
+	public void setCont(int cont) {
+		this.cont += cont;
 	}
 
 }
