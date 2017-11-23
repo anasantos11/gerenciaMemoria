@@ -77,6 +77,62 @@ public class OPT extends Politica {
 		}
 
 	}
+	
+	public void OPTGlobal() {
+		TreeMap<String, Queue<?>> mapQuadros = new TreeMap<String, Queue<?>>();
+		//TreeMap<String, Integer> mapQuadrosMax = new TreeMap<String, Integer>();
+		int tamQuadroMax = 0;
+		Map<String, LinkedList<Integer>> requisicoesFuturas = new TreeMap<String, LinkedList<Integer>>();
+
+		// Criando Maps para todos os processos que serao processados
+		for (int i = 0; i < qtdProcessos; i++) {
+			mapQuadros.put(processos.get(i).getNomeProcesso(), new LinkedList<Object>());
+			requisicoesFuturas.put(processos.get(i).getNomeProcesso(), new LinkedList<Integer>());
+			tamQuadroMax += tamMemoria[i];
+		}
+		System.out.println("Total de quadros por processo" + tamQuadroMax);
+
+		// Colocando todas as requisicoes em uma lista para saber as requisicoes futuras
+		for (Requisicao requisicao : requisicoes) {
+			requisicoesFuturas.get(requisicao.getProcesso()).add(requisicao.getPagina());
+		}
+		System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
+
+		System.out.println("\n \n \n");
+		// Realizar processamento das paginas
+
+		for (Requisicao requisicao : requisicoes) {
+			@SuppressWarnings("unchecked")
+			LinkedList<Integer> quadro = (LinkedList<Integer>) mapQuadros.get(requisicao.getProcesso());
+
+			if (quadro.contains(requisicao.getPagina())) {
+				hits++;
+				removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
+				System.out.println("HIT - " + requisicao + " " + mapQuadros);
+			} else {
+				if (quadro.size() < tamQuadroMax) {
+					quadro.add(requisicao.getPagina());
+					removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
+					System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
+				} else {
+					int indicePag = 0;
+					if (quadro.size() > 1) {
+						indicePag = quadro.indexOf(retirarPagina(quadro, requisicoesFuturas, requisicao.getProcesso()));
+						if(indicePag == -1) {
+							indicePag = 0;
+						}
+							
+					}
+					quadro.remove(indicePag);
+					quadro.add(indicePag, requisicao.getPagina());
+					removerRequisicaoFutura(requisicoesFuturas, requisicao.getProcesso());
+					System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
+				}
+			}
+
+		}
+
+	}
 
 	public void removerRequisicaoFutura(Map<String, LinkedList<Integer>> requisicoesFuturas, String processo) {
 		requisicoesFuturas.get(processo).remove();
