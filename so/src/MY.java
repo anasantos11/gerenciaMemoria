@@ -46,20 +46,23 @@ public class MY extends Politica {
 
 		hits = 0;
 
-		LinkedList<Requisicao> queue = new LinkedList<Requisicao>();
+		LinkedList<RequisicaoMY> queue = new LinkedList<RequisicaoMY>();
+		
 		for (Requisicao req : config.getRequisicoes()) {
+			
+			RequisicaoMY mfu = new RequisicaoMY (req, config.getQtdQuadros()%config.getQtdProcessos());
 
 			if (queue.size() < espaco) {// memoria nao cheia
 
-				if (queue.contains(req)) {
+				if (queue.contains(mfu)) {
 
 					i++;
 					hits++;
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 
-						if (req.equals(r)) {
+						if (mfu.equals(r)) {
 
 							r.setHits(1);
 
@@ -67,15 +70,15 @@ public class MY extends Politica {
 
 					}
 
-					//System.out.println(i + " HIT em " + req.getPagina() + "  " + queue);
+					//System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
 
 				} else {
 
-					queue.add(req);
+					queue.add(mfu);
 					i++;
 					//System.out.println(i + " ADD " + queue);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 
@@ -85,15 +88,15 @@ public class MY extends Politica {
 
 			} else {// memoria cheia
 
-				if (queue.contains(req)) {
+				if (queue.contains(mfu)) {
 
 					i++;
 					hits++;
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
-						if (req.equals(r)) {
+						if (mfu.equals(r)) {
 
 							r.setHits(1);
 
@@ -101,17 +104,17 @@ public class MY extends Politica {
 
 					}
 
-					//System.out.println(i + " HIT em " + req.getPagina() + "  " + queue);
+					//System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
 					i++;
 
-					queue.remove(Collections.max(queue));
-					queue.add(req);
+					queue.remove(Collections.min(queue));
+					queue.add(mfu);
 					//System.out.println(i + " REM " + queue);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 
@@ -136,7 +139,7 @@ public class MY extends Politica {
 
 		for (i = 0; i < config.getQtdProcessos(); i++) {
 
-			map.put(config.getProcessos().get(i).getNomeProcesso(), new LinkedList<Requisicao>());
+			map.put(config.getProcessos().get(i).getNomeProcesso(), new LinkedList<RequisicaoMY>());
 			mapMax.put(config.getProcessos().get(i).getNomeProcesso(), tamMemoria[i]);
 
 		}
@@ -145,37 +148,40 @@ public class MY extends Politica {
 		hits = 0;
 
 		for (Requisicao req : config.getRequisicoes()) {
+			
+			RequisicaoMY my = new RequisicaoMY (req, config.getQtdQuadros()%config.getQtdProcessos());
 
+			
 			@SuppressWarnings("unchecked")
-			LinkedList<Requisicao> queue = (LinkedList<Requisicao>) map.get(req.getProcesso());
+			LinkedList<RequisicaoMY> queue = (LinkedList<RequisicaoMY>) map.get(my.getProcesso());
 
-			if (queue.size() < mapMax.get(req.getProcesso())) {// memoria nao
+			if (queue.size() < mapMax.get(my.getProcesso())) {// memoria nao
 																// cheia
 
-				if (map.get(req.getProcesso()).contains(req)) {
+				if (map.get(my.getProcesso()).contains(my)) {
 
 					i++;
 					hits++;
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 
-						if (req.equals(r)) {
+						if (my.equals(r)) {
 
 							r.setHits(1);
 
 						}
 
 					}
-					// System.out.println( i + " HIT em " + req.getPagina() +" " + map);
+					// System.out.println( i + " HIT em " + mfu.getPagina() +" " + map);
 
 				} else {
 
-					queue.add(req);
+					queue.add(my);
 					i++;
 					 //System.out.println( i + " ADD " + map);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 
@@ -185,7 +191,7 @@ public class MY extends Politica {
 
 			} else {// memoria cheia
 
-				if (map.get(req.getProcesso()).contains(req)) {
+				if (map.get(my.getProcesso()).contains(my)) {
 
 					i++;
 					hits++;
@@ -193,7 +199,7 @@ public class MY extends Politica {
 					for (Requisicao r : queue) {
 
 						r.setCont(1);
-						if (req.equals(r)) {
+						if (my.equals(r)) {
 
 							r.setHits(1);
 
@@ -201,17 +207,17 @@ public class MY extends Politica {
 
 					}
 
-					//System.out.println( i + " HIT em " + req.getPagina() +" "  + map);
+					//System.out.println( i + " HIT em " + mfu.getPagina() +" "  + map);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
 					i++;
 
-					queue.remove(Collections.max(queue));
-					queue.add(req);
+					queue.remove(Collections.min(queue));
+					queue.add(my);
 					// System.out.println( i + " REM " + map);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 

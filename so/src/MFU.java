@@ -46,20 +46,23 @@ public class MFU extends Politica {
 
 		hits = 0;
 
-		LinkedList<Requisicao> queue = new LinkedList<Requisicao>();
+		LinkedList<RequisicaoMFU> queue = new LinkedList<RequisicaoMFU>();
+		
 		for (Requisicao req : config.getRequisicoes()) {
+			
+			RequisicaoMFU mfu = new RequisicaoMFU (req);
 
 			if (queue.size() < espaco) {// memoria nao cheia
 
-				if (queue.contains(req)) {
+				if (queue.contains(mfu)) {
 
 					i++;
 					hits++;
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
 
-						if (req.equals(r)) {
+						if (mfu.equals(r)) {
 
 							r.setHits(1);
 
@@ -67,15 +70,15 @@ public class MFU extends Politica {
 
 					}
 
-					//System.out.println(i + " HIT em " + req.getPagina() + "  " + queue);
+					//System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
 
 				} else {
 
-					queue.add(req);
+					queue.add(mfu);
 					i++;
 					//System.out.println(i + " ADD " + queue);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
 
@@ -85,15 +88,15 @@ public class MFU extends Politica {
 
 			} else {// memoria cheia
 
-				if (queue.contains(req)) {
+				if (queue.contains(mfu)) {
 
 					i++;
 					hits++;
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
-						if (req.equals(r)) {
+						if (mfu.equals(r)) {
 
 							r.setHits(1);
 
@@ -101,17 +104,17 @@ public class MFU extends Politica {
 
 					}
 
-					//System.out.println(i + " HIT em " + req.getPagina() + "  " + queue);
+					//System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
 					i++;
 
 					queue.remove(Collections.max(queue));
-					queue.add(req);
+					queue.add(mfu);
 					//System.out.println(i + " REM " + queue);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
 
@@ -136,7 +139,7 @@ public class MFU extends Politica {
 
 		for (i = 0; i < config.getQtdProcessos(); i++) {
 
-			map.put(config.getProcessos().get(i).getNomeProcesso(), new LinkedList<Requisicao>());
+			map.put(config.getProcessos().get(i).getNomeProcesso(), new LinkedList<RequisicaoMFU>());
 			mapMax.put(config.getProcessos().get(i).getNomeProcesso(), tamMemoria[i]);
 
 		}
@@ -145,37 +148,39 @@ public class MFU extends Politica {
 		hits = 0;
 
 		for (Requisicao req : config.getRequisicoes()) {
+			
+			RequisicaoMFU mfu = new RequisicaoMFU (req);
 
 			@SuppressWarnings("unchecked")
-			LinkedList<Requisicao> queue = (LinkedList<Requisicao>) map.get(req.getProcesso());
+			LinkedList<RequisicaoMFU> queue = (LinkedList<RequisicaoMFU>) map.get(mfu.getProcesso());
 
-			if (queue.size() < mapMax.get(req.getProcesso())) {// memoria nao
+			if (queue.size() < mapMax.get(mfu.getProcesso())) {// memoria nao
 																// cheia
 
-				if (map.get(req.getProcesso()).contains(req)) {
+				if (map.get(mfu.getProcesso()).contains(mfu)) {
 
 					i++;
 					hits++;
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
 
-						if (req.equals(r)) {
+						if (mfu.equals(r)) {
 
 							r.setHits(1);
 
 						}
 
 					}
-					// System.out.println( i + " HIT em " + req.getPagina() +" " + map);
+					// System.out.println( i + " HIT em " + mfu.getPagina() +" " + map);
 
 				} else {
 
-					queue.add(req);
+					queue.add(mfu);
 					i++;
 					 //System.out.println( i + " ADD " + map);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
 
@@ -185,15 +190,15 @@ public class MFU extends Politica {
 
 			} else {// memoria cheia
 
-				if (map.get(req.getProcesso()).contains(req)) {
+				if (map.get(mfu.getProcesso()).contains(mfu)) {
 
 					i++;
 					hits++;
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
-						if (req.equals(r)) {
+						if (mfu.equals(r)) {
 
 							r.setHits(1);
 
@@ -201,17 +206,17 @@ public class MFU extends Politica {
 
 					}
 
-					//System.out.println( i + " HIT em " + req.getPagina() +" "  + map);
+					//System.out.println( i + " HIT em " + mfu.getPagina() +" "  + map);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
 					i++;
 
 					queue.remove(Collections.max(queue));
-					queue.add(req);
+					queue.add(mfu);
 					// System.out.println( i + " REM " + map);
 
-					for (Requisicao r : queue) {
+					for (RequisicaoMFU r : queue) {
 
 						r.setCont(1);
 
