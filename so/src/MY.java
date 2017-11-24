@@ -33,7 +33,6 @@ public class MY extends Politica {
 	public void Global() {
 
 		int i;
-
 		int espaco = 0;
 
 		for (i = 0; i < tamMemoria.length; i++) {
@@ -50,19 +49,20 @@ public class MY extends Politica {
 		
 		for (Requisicao req : config.getRequisicoes()) {
 			
-			RequisicaoMY mfu = new RequisicaoMY (req, config.getQtdQuadros()%config.getQtdProcessos());
+			RequisicaoMY my = new RequisicaoMY (req, config.getQtdQuadros()%config.getQtdProcessos());
 
 			if (queue.size() < espaco) {// memoria nao cheia
 
-				if (queue.contains(mfu)) {
+				if (queue.contains(my)) {
 
 					i++;
 					hits++;
+					
 					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
 
-						if (mfu.equals(r)) {
+						if (my.equals(r)) {
 
 							r.setHits(1);
 
@@ -70,11 +70,11 @@ public class MY extends Politica {
 
 					}
 
-					System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
+					System.out.println(i + " HIT em " + my.getPagina() + "  " + queue);
 
 				} else {
 
-					queue.add(mfu);
+					queue.add(my);
 					i++;
 					System.out.println(i + " ADD " + queue);
 
@@ -88,7 +88,7 @@ public class MY extends Politica {
 
 			} else {// memoria cheia
 
-				if (queue.contains(mfu)) {
+				if (queue.contains(my)) {
 
 					i++;
 					hits++;
@@ -96,7 +96,7 @@ public class MY extends Politica {
 					for (RequisicaoMY r : queue) {
 
 						r.setCont(1);
-						if (mfu.equals(r)) {
+						if (my.equals(r)) {
 
 							r.setHits(1);
 
@@ -104,14 +104,14 @@ public class MY extends Politica {
 
 					}
 
-					System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
+					System.out.println(i + " HIT em " + my.getPagina() + "  " + queue);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
 					i++;
 
 					queue.remove(Collections.min(queue));
-					queue.add(mfu);
+					queue.add(my);
 					System.out.println(i + " REM " + queue);
 
 					for (RequisicaoMY r : queue) {
@@ -173,7 +173,7 @@ public class MY extends Politica {
 						}
 
 					}
-					// System.out.println( i + " HIT em " + mfu.getPagina() +" " + map);
+					// System.out.println( i + " HIT em " + my.getPagina() +" " + map);
 
 				} else {
 
@@ -207,7 +207,7 @@ public class MY extends Politica {
 
 					}
 
-					//System.out.println( i + " HIT em " + mfu.getPagina() +" "  + map);
+					//System.out.println( i + " HIT em " + my.getPagina() +" "  + map);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER

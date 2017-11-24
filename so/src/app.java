@@ -78,7 +78,8 @@ public class app {
 					"MFU=" + mfuOut+  "\n"+
 					"MY=" + myOut;
 		Arquivo.criarArquivoResposta(resposta);
-
+		
+		System.gc();
 					
 		}
 
