@@ -70,13 +70,13 @@ public class MY extends Politica {
 
 					}
 
-					//System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
+					System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
 
 				} else {
 
 					queue.add(mfu);
 					i++;
-					//System.out.println(i + " ADD " + queue);
+					System.out.println(i + " ADD " + queue);
 
 					for (RequisicaoMY r : queue) {
 
@@ -104,7 +104,7 @@ public class MY extends Politica {
 
 					}
 
-					//System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
+					System.out.println(i + " HIT em " + mfu.getPagina() + "  " + queue);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
@@ -112,7 +112,7 @@ public class MY extends Politica {
 
 					queue.remove(Collections.min(queue));
 					queue.add(mfu);
-					//System.out.println(i + " REM " + queue);
+					System.out.println(i + " REM " + queue);
 
 					for (RequisicaoMY r : queue) {
 

@@ -75,7 +75,7 @@ public class Requisicao implements Comparable<Requisicao>{
 	public int compareTo(Requisicao reqs){
 
 		if (this.hits == reqs.getHits()){
-			if (this.cont > reqs.getCont() )
+			if (this.cont < reqs.getCont() )
 				return -1;  
 			else
 				return 1;

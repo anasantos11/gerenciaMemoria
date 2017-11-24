@@ -46,35 +46,36 @@ public class LFU{
 
 		hits = 0;
 
-		LinkedList<Requisicao> list = new LinkedList<Requisicao>();
+		LinkedList<RequisicaoGlobal> list = new LinkedList<RequisicaoGlobal>();
 
 		for (Requisicao req : config.getRequisicoes()) {
 
-			if (list.contains(req)) {
+			RequisicaoGlobal global = new RequisicaoGlobal (req);
+			
+			if (list.contains(global)) {
 
 				i++;
 				hits++;
-				for (Requisicao r : list) {
+				for (RequisicaoGlobal r : list) {
 
 					r.setCont(1);
 
-					if (req.equals(r)) {
+					if (global.equals(r)) {
 
 						r.setHits(1);
 
 					}
 
 				}
-				// System.out.println( i + " HIT em " + req.getPagina() +" " +
-				// list);
+				 //System.out.println( i + " HIT em " + req.getPagina() +" " +  list);
 
 			} else if (list.size() < espaco) {// memoria nao cheia
 
-				list.add(req);
+				list.add(global);
 				i++;
-				// System.out.println( i + " ADD " + map);
+				//System.out.println( i + " ADD " + list);
 
-				for (Requisicao r : list) {
+				for (RequisicaoGlobal r : list) {
 
 					r.setCont(1);
 
@@ -85,10 +86,10 @@ public class LFU{
 				i++;
 
 				list.remove(Collections.min(list));
-				list.add(req);
-				// System.out.println( i + " REM " + list);
+				list.add(global);
+				//System.out.println( i + " REM " + list);
 
-				for (Requisicao r : list) {
+				for (RequisicaoGlobal r : list) {
 
 					r.setCont(1);
 
@@ -97,7 +98,7 @@ public class LFU{
 			}
 		}// end for de requisicoes
 
-		// System.out.println(list);
+		 //System.out.println(list);
 		// System.out.println(hits);
 
 	}// end void 
@@ -142,14 +143,13 @@ public class LFU{
 						}
 
 					}
-					// System.out.println( i + " HIT em " + req.getPagina() +" "
-					// + map);
+					 //System.out.println( i + " HIT em " + req.getPagina() +" "+ queue);
 
 				} else {
 
 					queue.add(req);
 					i++;
-					// System.out.println( i + " ADD " + map);
+					//System.out.println( i + " ADD " + map);
 
 					for (Requisicao r : queue) {
 
@@ -177,8 +177,7 @@ public class LFU{
 
 					}
 
-					// System.out.println( i + " HIT em " + req.getPagina() +" "
-					// + map);
+					 //System.out.println( i + " HIT em " + req.getPagina() +" " + queue);
 
 				} else {
 					// ESTA CHEIO E PRECISA REMOVER
@@ -186,7 +185,7 @@ public class LFU{
 
 					queue.remove(Collections.min(queue));
 					queue.add(req);
-					// System.out.println( i + " REM " + map);
+					//System.out.println( i + " REM " + map);
 
 					for (Requisicao r : queue) {
 
@@ -199,8 +198,8 @@ public class LFU{
 
 		}
 
-		System.out.println(map);
-		System.out.println(hits);
+		//System.out.println(map);
+		//System.out.println(hits);
 
 	}
 

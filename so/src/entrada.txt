@@ -4,7 +4,7 @@ P1=4
 P2=3
 P3=6
 P4=7;
-Alocação=Igual
+Alocação=Proporcional
 Substituição=Global
 Sequência:
 P1,3
