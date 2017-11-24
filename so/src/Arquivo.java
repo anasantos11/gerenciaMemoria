@@ -4,8 +4,6 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFileChooser;
-
 public class Arquivo {
 	private String nomeArquivo;
 	private String linhaArquivo = "";
@@ -24,18 +22,19 @@ public class Arquivo {
 	 */
 
 	public static String pegarArquivo() throws Exception {
-		/*
-		JFileChooser arquivo = new JFileChooser();
+		
+		/*JFileChooser arquivo = new JFileChooser();
 		int retorno = arquivo.showOpenDialog(null);
 		if (retorno == JFileChooser.CANCEL_OPTION) {
 			throw new Exception("Processo cancelado");
 		}
 		String arquivoSelecionado = arquivo.getSelectedFile().getPath();
-		return arquivoSelecionado;
+		return arquivoSelecionado;*/
 	
-	*/
+	
 		
-		return "/Users/carlos/git/gerenciaMemoria/so/src/entrada.txt";
+		//return "/Users/carlos/git/gerenciaMemoria/so/src/entrada.txt";
+		return "src/entrada.txt";
 	}
 	
 	/**
@@ -45,17 +44,18 @@ public class Arquivo {
 	 * @throws Exception
 	 */
 
-	public void criarArquivoResposta(String resposta) throws Exception {
-		JFileChooser arquivo = new JFileChooser();
+	public static void criarArquivoResposta(String resposta) throws Exception {
+		/*JFileChooser arquivo = new JFileChooser();
 		int retorno = arquivo.showSaveDialog(null);
 		if (retorno == JFileChooser.CANCEL_OPTION) {
 			throw new Exception("Processo cancelado");
 		}
-		String pasta = arquivo.getSelectedFile().getPath();
-
-		File arquivoResposta = new File(pasta + ".txt");
-		RandomAccessFile rw = new RandomAccessFile(arquivoResposta, "rw");
-		rw.writeUTF(resposta);
+		String pasta = arquivo.getSelectedFile().getPath();*/
+		
+		File file = new File("src/saida.txt" );
+		file.delete();
+		RandomAccessFile rw = new RandomAccessFile(new File("src/saida.txt"), "rw");
+		rw.writeBytes(resposta);
 		rw.close();
 
 	}

@@ -75,11 +75,11 @@ public class OPT extends Politica {
 				} else {
 					int indicePag = 0;
 					if (quadro.size() > 1) {
-						indicePag = quadro.indexOf(retirarPagina(quadro, requisicoesFuturas, requisicao.getProcesso()));
-						if(indicePag == -1) {
+						indicePag = quadro.indexOf(retirarPaginaLocal(quadro, requisicoesFuturas, requisicao.getProcesso()));
+						if (indicePag == -1) {
 							indicePag = 0;
 						}
-							
+
 					}
 					quadro.remove(indicePag);
 					quadro.add(indicePag, requisicao.getPagina());
@@ -92,34 +92,82 @@ public class OPT extends Politica {
 
 	}
 	
-	public void Global (){
-		
-		
-		
+	public void Global() {
+		TreeMap<String, Queue<?>> mapQuadros = new TreeMap<String, Queue<?>>();
+		// TreeMap<String, Integer> mapQuadrosMax = new TreeMap<String, Integer>();
+		int tamQuadroMax = 0;
+		// Map<String, LinkedList<Integer>> requisicoesFuturas = new TreeMap<String,
+		// LinkedList<Integer>>();
+		LinkedList<Requisicao> requisicoesFuturas = new LinkedList<Requisicao>();
+
+		// Criando Maps para todos os processos que serao processados
+		for (int i = 0; i < qtdProcessos; i++) {
+			mapQuadros.put(processos.get(i).getNomeProcesso(), new LinkedList<Object>());
+			//// requisicoesFuturas.put(processos.get(i).getNomeProcesso(), new
+			//// LinkedList<Integer>());
+			tamQuadroMax += tamMemoria[i];
+		}
+		//System.out.println("Total de quadros por processo" + tamQuadroMax);
+
+		// Colocando todas as requisicoes em uma lista para saber as requisicoes futuras
+		requisicoesFuturas.addAll(requisicoes);
+
+		//System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
+
+		//System.out.println("\n \n \n");
+		// Realizar processamento das paginas
+
+		LinkedList<Requisicao> quadro = new LinkedList<Requisicao>();
+
+		for (Requisicao requisicao : requisicoes) {
+
+			if (quadro.contains(requisicao)) {
+				hits++;
+				requisicoesFuturas.remove();
+				//System.out.println("HIT - " + requisicao + " " + mapQuadros);
+			} else {
+				if (quadro.size() < tamQuadroMax) {
+					quadro.add(requisicao);
+					requisicoesFuturas.remove();
+					//System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
+				} else {
+					int indicePag = 0;
+					Requisicao retorno = retirarPaginaGlobal(quadro, requisicoesFuturas);
+					if (quadro.size() > 1) {						
+						indicePag = retorno == null ? 0 : quadro.indexOf(retorno);
+					}
+					quadro.remove(indicePag);
+					quadro.add(indicePag, requisicao);
+					requisicoesFuturas.remove();
+					//System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
+				}
+			}
+
+		}
+
 	}
 
 	public void removerRequisicaoFutura(Map<String, LinkedList<Integer>> requisicoesFuturas, String processo) {
 		requisicoesFuturas.get(processo).remove();
-		//System.out.println("Nova lista de requisicoes futuras" + requisicoesFuturas);
+		// System.out.println("Nova lista de requisicoes futuras" + requisicoesFuturas);
 	}
 
-	public int retirarPagina(LinkedList<Integer> quadro, Map<String, LinkedList<Integer>> requisicoesFuturas,
+	public int retirarPaginaLocal(LinkedList<Integer> quadroLocal, Map<String, LinkedList<Integer>> requisicoesFuturasLocal,
 			String processo) {
 
 		Map<Integer, Integer> indicesPagFuturas = new TreeMap<Integer, Integer>();
-		LinkedList<Integer> paginasSemRequisicaoFuturo = new  LinkedList<Integer>();
-		paginasSemRequisicaoFuturo.addAll(quadro);
-		
-				
-		for (Integer pagina : requisicoesFuturas.get(processo)) {
-			if (quadro.contains(pagina) && !indicesPagFuturas.containsValue(pagina)) {
-				indicesPagFuturas.put(requisicoesFuturas.get(processo).indexOf(pagina), pagina);
+		LinkedList<Integer> paginasSemRequisicaoFuturo = new LinkedList<Integer>();
+		paginasSemRequisicaoFuturo.addAll(quadroLocal);
+
+		for (Integer pagina : requisicoesFuturasLocal.get(processo)) {
+			if (quadroLocal.contains(pagina) && !indicesPagFuturas.containsValue(pagina)) {
+				indicesPagFuturas.put(requisicoesFuturasLocal.get(processo).indexOf(pagina), pagina);
 				paginasSemRequisicaoFuturo.remove(paginasSemRequisicaoFuturo.indexOf(pagina));
 			}
 		}
-		if(paginasSemRequisicaoFuturo.size() > 0) {
+		if (paginasSemRequisicaoFuturo.size() > 0) {
 			return paginasSemRequisicaoFuturo.getFirst();
-		}else {
+		} else {
 			LinkedList<Integer> x = new LinkedList<Integer>();
 			x.addAll(indicesPagFuturas.values());
 
@@ -130,7 +178,34 @@ public class OPT extends Politica {
 				return -1;
 			}
 		}
-		
+
+	}
+
+	public Requisicao retirarPaginaGlobal(LinkedList<Requisicao> quadroGlobal, LinkedList<Requisicao> requisicoesFuturasGlobal) {
+
+		Map<Integer, Requisicao> indicesPagFuturas = new TreeMap<Integer, Requisicao>();
+		LinkedList<Requisicao> paginasSemRequisicaoFuturo = new LinkedList<Requisicao>();
+		paginasSemRequisicaoFuturo.addAll(quadroGlobal);
+
+		for (Requisicao pagina : requisicoesFuturasGlobal) {
+			if (quadroGlobal.contains(pagina) && !indicesPagFuturas.containsValue(pagina)) {
+				indicesPagFuturas.put(requisicoesFuturasGlobal.indexOf(pagina), pagina);
+				paginasSemRequisicaoFuturo.remove(paginasSemRequisicaoFuturo.indexOf(pagina));
+			}
+		}
+		if (paginasSemRequisicaoFuturo.size() > 0) {
+			return paginasSemRequisicaoFuturo.getFirst();
+		} else {
+			LinkedList<Requisicao> x = new LinkedList<Requisicao>();
+			x.addAll(indicesPagFuturas.values());
+
+			System.out.println("Indices das paginas " + indicesPagFuturas);
+			if (x.size() > 0) {
+				return x.getLast();
+			} else {
+				return null;
+			}
+		}
 
 	}
 
@@ -141,6 +216,5 @@ public class OPT extends Politica {
 	public List<Requisicao> getRequisicoes() {
 		return requisicoes;
 	}
-	
-	
+
 }
