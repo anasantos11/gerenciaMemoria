@@ -59,7 +59,7 @@ public class app {
 
 		
 		
-		System.out.println("Requisições=" + requisicoes );
+		System.out.println("Requisicoes=" + requisicoes );
 		System.out.println("TaxasDeErros:");
 		System.out.println("FIFO=" + fifoOut);
 		System.out.println("OPT=" + optOut );
@@ -67,9 +67,17 @@ public class app {
 		System.out.println("LFU=" + lfuOut);
 		System.out.println("MFU=" + mfuOut);
 		System.out.println("MY=" + myOut);
-
 		
-
+		
+		String resposta = "Requisicoes=" + requisicoes + "\n"+
+					"TaxasDeErros:" +  "\n"+
+					"FIFO=" + fifoOut +  "\n"+
+					"OPT=" + optOut +  "\n"+
+					"LRU=" + lruOut +  "\n"+
+					"LFU=" + lfuOut +  "\n"+
+					"MFU=" + mfuOut+  "\n"+
+					"MY=" + myOut;
+		Arquivo.criarArquivoResposta(resposta);
 
 					
 		}

@@ -92,13 +92,7 @@ public class OPT extends Politica {
 
 	}
 	
-	public void Global (){
-		
-		
-		
-	}
-
-	public void OPTGlobal() {
+	public void Global() {
 		TreeMap<String, Queue<?>> mapQuadros = new TreeMap<String, Queue<?>>();
 		// TreeMap<String, Integer> mapQuadrosMax = new TreeMap<String, Integer>();
 		int tamQuadroMax = 0;
@@ -113,14 +107,14 @@ public class OPT extends Politica {
 			//// LinkedList<Integer>());
 			tamQuadroMax += tamMemoria[i];
 		}
-		System.out.println("Total de quadros por processo" + tamQuadroMax);
+		//System.out.println("Total de quadros por processo" + tamQuadroMax);
 
 		// Colocando todas as requisicoes em uma lista para saber as requisicoes futuras
 		requisicoesFuturas.addAll(requisicoes);
 
-		System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
+		//System.out.println("Lista de requisicoes futuras" + requisicoesFuturas);
 
-		System.out.println("\n \n \n");
+		//System.out.println("\n \n \n");
 		// Realizar processamento das paginas
 
 		LinkedList<Requisicao> quadro = new LinkedList<Requisicao>();
@@ -130,12 +124,12 @@ public class OPT extends Politica {
 			if (quadro.contains(requisicao)) {
 				hits++;
 				requisicoesFuturas.remove();
-				System.out.println("HIT - " + requisicao + " " + mapQuadros);
+				//System.out.println("HIT - " + requisicao + " " + mapQuadros);
 			} else {
 				if (quadro.size() < tamQuadroMax) {
 					quadro.add(requisicao);
 					requisicoesFuturas.remove();
-					System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
+					//System.out.println("Pagina adicionada SEM remocao - " + requisicao + " " + mapQuadros);
 				} else {
 					int indicePag = 0;
 					Requisicao retorno = retirarPaginaGlobal(quadro, requisicoesFuturas);
@@ -145,7 +139,7 @@ public class OPT extends Politica {
 					quadro.remove(indicePag);
 					quadro.add(indicePag, requisicao);
 					requisicoesFuturas.remove();
-					System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
+					//System.out.println("Pagina adicionada COM substituicao - " + requisicao + " " + mapQuadros);
 				}
 			}
 
